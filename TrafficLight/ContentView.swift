@@ -17,11 +17,13 @@ enum TrafficLightState {
 struct SignalView: View {
     var color: Color
     var lineWidth = 4.0
+    var isOn: Bool
 
     var body: some View {
         Circle()
             .frame(width: 120, height: 120)
             .foregroundColor(color)
+            .opacity(isOn ? 1.0 : 0.3)
             .overlay(
                 Circle()
                     .stroke(Color.black.opacity(0.7), lineWidth: lineWidth)
@@ -35,26 +37,28 @@ struct TrafficLightView: View {
 
     var body: some View {
         VStack(spacing: 30) {
-            SignalView(color: lightState == .red ? .red : .red.opacity(0.3))
-            
-            SignalView(color: lightState == .yellow ? .yellow : .yellow.opacity(0.3))
-            
-            SignalView(color: lightState == .green ? .green : .green.opacity(0.3))
-            
+            SignalView(color: .red, isOn: lightState == .red)
+                        
+            SignalView(color: .yellow, isOn: lightState == .yellow)
+                        
+            SignalView(color: .green, isOn: lightState == .green)
+                        
             Spacer()
             
             Button(action: {
-                switch lightState {
-                case .none:
-                    lightState = .red
-                    buttonText = "NEXT"
-                case .red:
-                    lightState = .yellow
-                case .yellow:
-                    lightState = .green
-                case .green:
-                    lightState = .red
-                }
+                 withAnimation(.easeInOut(duration: 0.5)) {
+                     switch self.lightState {
+                     case .none:
+                         self.lightState = .red
+                         self.buttonText = "NEXT"
+                     case .red:
+                         self.lightState = .yellow
+                     case .yellow:
+                         self.lightState = .green
+                     case .green:
+                         self.lightState = .red
+                     }
+                 }
             }) {
                 Text(buttonText)
                     .font(.title)
