@@ -18,10 +18,11 @@ struct SignalView: View {
     var color: Color
     var lineWidth = 4.0
     var isOn: Bool
-
+    var circleSize: CGFloat
+    
     var body: some View {
         Circle()
-            .frame(width: 120, height: 120)
+            .frame(width: circleSize, height: circleSize)
             .foregroundColor(color)
             .opacity(isOn ? 1.0 : 0.3)
             .overlay(
@@ -35,17 +36,22 @@ struct SignalView: View {
 struct TrafficLightView: View {
     @State private var lightState: TrafficLightState = .none
     @State private var buttonText = "START"
+    @State private var circleSize: CGFloat = 0
 
     var body: some View {
         VStack(spacing: 30) {
+            Spacer()
             SignalView(color: .red,
-                       isOn: lightState == .red)
+                       isOn: lightState == .red,
+                       circleSize: circleSize)
                         
             SignalView(color: .yellow,
-                       isOn: lightState == .yellow)
+                       isOn: lightState == .yellow,
+                       circleSize: circleSize)
                         
             SignalView(color: .green,
-                       isOn: lightState == .green)
+                       isOn: lightState == .green,
+                       circleSize: circleSize)
                         
             Spacer()
             
@@ -74,6 +80,9 @@ struct TrafficLightView: View {
             .padding(.bottom, 40)
         }
         .padding()
+        .onAppear {
+            circleSize = min(UIScreen.main.bounds.width, UIScreen.main.bounds.height) * 0.3
+        }
     }
 }
 
