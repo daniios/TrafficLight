@@ -41,6 +41,7 @@ struct TrafficLightView: View {
     var body: some View {
         VStack(spacing: 30) {
             Spacer()
+            
             SignalView(color: .red,
                        isOn: lightState == .red,
                        circleSize: circleSize)
@@ -81,7 +82,8 @@ struct TrafficLightView: View {
         }
         .padding()
         .onAppear {
-            circleSize = min(UIScreen.main.bounds.width, UIScreen.main.bounds.height) * 0.3
+            circleSize = min(UIScreen.main.bounds.width,
+                             UIScreen.main.bounds.height) * 0.3
         }
     }
 }
