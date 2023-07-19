@@ -26,7 +26,8 @@ struct SignalView: View {
             .opacity(isOn ? 1.0 : 0.3)
             .overlay(
                 Circle()
-                    .stroke(Color.black.opacity(0.7), lineWidth: lineWidth)
+                    .stroke(Color.black.opacity(0.7),
+                            lineWidth: lineWidth)
             )
     }
 }
@@ -37,11 +38,14 @@ struct TrafficLightView: View {
 
     var body: some View {
         VStack(spacing: 30) {
-            SignalView(color: .red, isOn: lightState == .red)
+            SignalView(color: .red,
+                       isOn: lightState == .red)
                         
-            SignalView(color: .yellow, isOn: lightState == .yellow)
+            SignalView(color: .yellow,
+                       isOn: lightState == .yellow)
                         
-            SignalView(color: .green, isOn: lightState == .green)
+            SignalView(color: .green,
+                       isOn: lightState == .green)
                         
             Spacer()
             
