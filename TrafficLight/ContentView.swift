@@ -47,16 +47,16 @@ struct TrafficLightView: View {
             
             Button(action: {
                  withAnimation(.easeInOut(duration: 0.5)) {
-                     switch self.lightState {
+                     switch lightState {
                      case .none:
-                         self.lightState = .red
-                         self.buttonText = "NEXT"
+                         lightState = .red
+                         buttonText = "NEXT"
                      case .red:
-                         self.lightState = .yellow
+                         lightState = .yellow
                      case .yellow:
-                         self.lightState = .green
+                         lightState = .green
                      case .green:
-                         self.lightState = .red
+                         lightState = .red
                      }
                  }
             }) {
