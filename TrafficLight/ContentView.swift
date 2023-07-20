@@ -15,20 +15,19 @@ enum TrafficLightState {
 }
 
 struct SignalView: View {
-    var color: Color
-    var lineWidth = 4.0
-    var isOn: Bool
-    var circleSize: CGFloat
+    let color: Color
+    let opacity: Double
+    let circleSize: CGFloat
     
     var body: some View {
         Circle()
             .frame(width: circleSize, height: circleSize)
             .foregroundColor(color)
-            .opacity(isOn ? 1.0 : 0.3)
+            .opacity(opacity)
             .overlay(
                 Circle()
                     .stroke(Color.black.opacity(0.7),
-                            lineWidth: lineWidth)
+                            lineWidth: 4.0)
             )
     }
 }
@@ -43,34 +42,20 @@ struct TrafficLightView: View {
             Spacer()
             
             SignalView(color: .red,
-                       isOn: lightState == .red,
+                       opacity: lightState == .red ? 1.0 : 0.3,
                        circleSize: circleSize)
                         
             SignalView(color: .yellow,
-                       isOn: lightState == .yellow,
+                       opacity: lightState == .yellow ? 1.0 : 0.3,
                        circleSize: circleSize)
                         
             SignalView(color: .green,
-                       isOn: lightState == .green,
+                       opacity: lightState == .green ? 1.0 : 0.3,
                        circleSize: circleSize)
                         
             Spacer()
             
-            Button(action: {
-                 withAnimation(.easeInOut(duration: 0.5)) {
-                     switch lightState {
-                     case .none:
-                         lightState = .red
-                         buttonText = "NEXT"
-                     case .red:
-                         lightState = .yellow
-                     case .yellow:
-                         lightState = .green
-                     case .green:
-                         lightState = .red
-                     }
-                 }
-            }) {
+            Button(action: changeLightState) {
                 Text(buttonText)
                     .font(.title)
                     .padding()
@@ -84,6 +69,22 @@ struct TrafficLightView: View {
         .onAppear {
             circleSize = min(UIScreen.main.bounds.width,
                              UIScreen.main.bounds.height) * 0.3
+        }
+    }
+    
+    private func changeLightState() {
+        withAnimation(.easeInOut(duration: 0.5)) {
+            switch lightState {
+            case .none:
+                lightState = .red
+                buttonText = "NEXT"
+            case .red:
+                lightState = .yellow
+            case .yellow:
+                lightState = .green
+            case .green:
+                lightState = .red
+            }
         }
     }
 }
